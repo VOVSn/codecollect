@@ -17,7 +17,7 @@ To set up CodeCollect on your system, follow these steps:
 
 2. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/codecollect.git
+   git clone https://github.com/vovsn/codecollect.git
    cd codecollect
    ```
 
@@ -108,6 +108,3 @@ Contributions to CodeCollect are welcome! Here’s how you can contribute:
 3. Implement your changes, ensuring compliance with PEP 8 standards.
 4. Submit a pull request with a clear description of your changes.
 
-## License
-
-CodeCollect is licensed under the MIT License. See [LICENSE](https://github.com/yourusername/codecollect/blob/main/LICENSE) for more information.
