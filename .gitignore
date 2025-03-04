@@ -3,4 +3,3 @@ venv
 *.log
 __pycache__
 __pycache__/*
-codebase
