@@ -1,112 +1,80 @@
-# CodeCollect
+# Automated Documentation Generator
 
-## Project Overview
+## Overview
 
-CodeCollect is a Python utility designed for analyzing Python codebases containing multiple modules. Its primary function is to generate a detailed `README.md` file following best Git practices. The tool automates several tasks including collecting module files, updating configuration files, and integrating with the Ollama API to create comprehensive documentation.
+This tool automates the generation of documentation for Python codebases, including updating module listings, creating folder structures, and generating detailed docstrings. It leverages Ollama to produce comprehensive READMEs with entire LLM responses or specific extracted content.
 
-## Installation
+## Features
 
-To set up CodeCollect on your system, follow these steps:
-
-1. **Prerequisites:**
-   - Ensure Python 3.x is installed.
-   - Install necessary dependencies:
-     ```bash
-     pip install requests
-     ```
-
-2. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/vovsn/codecollect.git
-   cd codecollect
-   ```
-
-3. **Configuration (Optional):**
-   - Create a `modules.json` file in the root directory if it doesn't exist.
-   - Customize paths and settings as needed within the script.
-
-## Tech Stack
-
-- **Python:** Core programming language used for scripting.
-- **Requests Library:** Used for interacting with the Ollama API.
-- **Argparse Library:** For command-line argument parsing.
-- **OS Module:** To interact with the file system.
+- **Module Management**: Automatically updates a `modules.json` file listing all Python files in the project.
+- **Folder Structure Generation**: Outputs a text file representing the directory structure of the codebase, excluding or including test directories based on user preference.
+- **Docstring Generation**: Offers both basic and detailed docstrings for specified modules, utilizing the Abstract Syntax Tree (AST) to identify classes and functions.
+- **README Creation**: Generates README files using Ollama, with options to include/exclude tests and use entire LLM responses or specific sections.
 
 ## Usage
 
-CodeCollect provides a variety of command-line options to control its behavior:
+### Command Line Arguments
 
-```bash
-python codecollect.py [options]
-```
-
-### Available Options
-
-- `-c`: Update `modules.json` (excludes tests).
-- `-a`: Collect codebase excluding tests.
-- `-at`: Include tests when collecting the codebase.
+- `-c`: Update `modules.json` and generate folder structure.
+- `-a`: Collect codebase excluding test directories.
+- `-at`: Include test directories when collecting the codebase.
 - `-r`: Generate README using `modules.json`.
 - `-ra`: Generate README excluding tests.
 - `-rat`: Generate README including tests.
-- `-re`: Generate README with the entire LLM response.
+- `-re`: Use entire LLM response for README generation.
+- `-d`: Generate basic docstrings.
+- `-dd`: Generate detailed docstrings.
 
 ### Example Commands
 
-1. **Update Modules:**
+1. **Update Module List and Folder Structure**
+
    ```bash
-   python codecollect.py -c
+   python script.py -c
    ```
 
-2. **Collect Codebase Excluding Tests:**
+2. **Generate Basic Docstrings**
+
    ```bash
-   python codecollect.py -a
+   python script.py -d
    ```
 
-3. **Generate README (Excluding Tests):**
+3. **Generate Detailed Docstrings**
+
    ```bash
-   python codecollect.py -ra
+   python script.py -dd
    ```
 
-4. **Generate Full LLM Response in README:**
+4. **Create README with Entire LLM Response**
+
    ```bash
-   python codecollect.py -re
+   python script.py -re
    ```
 
-## Functionality
+## Structure
 
-- **Module Collection:** Gathers all Python files, excluding tests by default.
-- **Configuration Management:** Updates and maintains `modules.json`.
-- **Documentation Generation:** Creates a detailed README using Ollama API integration.
+### Main Components
 
-### Additional Capabilities
+- **Module Management**: Uses `list_python_files` and `save_modules` to track Python files.
+- **Folder Structure Generation**: Utilizes `generate_folder_structure` to create a representation of the directory layout.
+- **Docstring Generation**: Employs `update_code` with AST parsing for inserting docstrings into code.
+- **README Creation**: Leverages Ollama through `ollama_generate` to produce README content, appending folder structure.
 
-- Supports inclusion of test modules if specified.
-- Generates both draft and full README versions based on user preferences.
+### Configuration
 
-## Git Best Practices
+- **Root Directory**: Set via `get_root_dir`.
+- **Results Directory**: Configured using `get_results_dir`.
 
-To maintain the quality and consistency of the CodeCollect project, adhere to these guidelines:
+## Technical Details
 
-- **Branching Strategy:**
-  - Use feature branches for new developments (`feature/<name>`).
-  - Use a `main` branch for stable releases.
-  
-- **Commit Messages:**
-  - Write clear and concise commit messages.
-  - Follow the format: `<type>: <description>`.
-  
-- **Pull Requests:**
-  - Ensure code reviews are conducted before merging.
-  - Resolve conflicts and run tests before submitting.
+- **Dependencies**: Requires Python 3.8+ and the `argparse`, `ast`, `os`, `json` libraries.
+- **PEP 8 Compliance**: Ensures code adheres to PEP 8 standards, including max line length of 79 characters and single quotes for strings.
 
-## Contributing
+## Contributions
 
-Contributions to CodeCollect are welcome! Here’s how you can contribute:
+Feel free to contribute by improving functionality or enhancing documentation. Submit pull requests with clear descriptions of changes made.
 
-# this README was also generated by codecollect
+## License
 
-1. Fork the repository on GitHub.
-2. Create a new branch for your feature or bug fix.
-3. Implement your changes, ensuring compliance with PEP 8 standards.
-4. Submit a pull request with a clear description of your changes.
+This project is licensed under the MIT License.
 

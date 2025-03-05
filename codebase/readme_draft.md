@@ -1,105 +1,73 @@
-# Project Overview
+# Python Script Guide
 
-This Python project consists of a script (`src/larva01.py`) designed to demonstrate various functionalities through command-line arguments. The program can enhance its code, draw ASCII art, play a simple snake game using Pygame, and simulate a tic-tac-toe game in the console.
+This document provides an overview of how to use the Python script designed for managing and documenting codebases. It explains various functionalities available through command-line arguments, including updating module configurations, generating documentation, and collecting codebases.
 
-## Key Functionalities
+## Setup
 
-1. **Code Improvement**: The `make` argument allows you to pass instructions for improving the script's functionality. This utilizes an AI model via the `ollama` library.
-2. **ASCII Art Drawing**: Use the `draw_sun` command to print a sun drawn with ASCII art.
-3. **Snake Game**: The `snake_game` command starts a basic snake game using Pygame, where you control the movement of the snake on a grid.
-4. **Tic-Tac-Toe**: Run the program with `tic_tac_toe` to play a console-based tic-tac-toe game against another player.
+Ensure you have a suitable Python environment set up with necessary dependencies installed. The script utilizes `argparse` for parsing command-line arguments and requires access to the file system for reading and writing files.
 
-# Installation
+## Script Overview
 
-To set up and run this project, follow these steps:
+The main script consists of several functions that interact with each other:
 
-1. **Clone the Repository**:
-   ```bash
-   git clone <repository-url>
-   cd <project-directory>
-   ```
+1. **File Management**: Functions like `list_python_files`, `save_modules`, and `load_modules` handle operations related to discovering Python files, saving module information, and loading this data.
+   
+2. **Documentation Generation**:
+   - `generate_docstrings`: Generates basic or detailed docstrings for specified modules using the LLM model.
+   - `update_code`: Updates source code with new docstrings and saves changes.
 
-2. **Set Up a Virtual Environment (Optional but Recommended)**:
-   ```bash
-   python -m venv env
-   source env/bin/activate  # On Windows use `env\Scripts\activate`
-   ```
+3. **README Creation**:
+   - `generate_readme`: Creates a README file by sending the collected codebase to an LLM, extracting relevant documentation sections, and appending folder structure information.
 
-3. **Install Dependencies**:
-   Install Pygame and the required libraries specified in any `requirements.txt` file, or directly:
-   ```bash
-   pip install pygame ollama
-   ```
+4. **Code Collection**:
+   - `collect_codebase`: Collects Python files into a single text document for processing.
 
-4. **Run the Program**:
-   Execute the script with desired arguments:
-   ```bash
-   python src/larva01.py <command>
-   ```
-   Replace `<command>` with one of `make`, `draw_sun`, `snake_game`, or `tic_tac_toe`.
+5. **Folder Structure**: Utilizes functions like `generate_folder_structure` to create a representation of the directory layout.
 
-# Tech Stack
+## Command-Line Arguments
 
-- **Python**: The core programming language used for developing functionalities.
-- **Pygame**: A library to create the snake game.
-- **Ollama**: Used for AI-driven code improvement.
+The script supports various command-line arguments that allow users to perform different tasks:
 
-# Usage Guide
+- `-c`: Update `modules.json` and generate folder structure.
+- `-a`: Collect codebase, excluding test files.
+- `-at`: Include test files when collecting the codebase.
+- `-r`: Generate README using `modules.json`.
+- `-ra`: Generate README while excluding tests.
+- `-rat`: Generate README including tests.
+- `-re`: Generate README with entire LLM response.
+- `-d`: Generate basic docstrings for modules.
+- `-dd`: Generate detailed docstrings for modules.
 
-## Code Improvement (`make`)
+## Usage
+
+To use the script, navigate to its directory in your terminal and execute it with desired arguments. For example:
 
 ```bash
-python src/larva01.py make "<your instructions>"
+python script_name.py -c   # Updates module configurations and generates folder structure.
+python script_name.py -d   # Generates basic docstrings for all modules.
 ```
 
-This command uses the `ollama` library to attempt improving the script's functionality based on provided instructions. The improved code is saved as a new version of the script.
+### Example Scenarios
 
-## ASCII Art Drawing (`draw_sun`)
+1. **Updating Module Configurations**:
+   
+   Run the script with `-c` to update `modules.json`, reflecting current Python files in your project, excluding test directories unless `-at` is specified.
 
-```bash
-python src/larva01.py draw_sun
-```
+2. **Generating Docstrings**:
 
-Prints an ASCII representation of the sun to the console.
+   Use `-d` for basic docstrings or `-dd` for detailed ones. Ensure that `modules.json` is up-to-date before running these options to apply changes to all relevant modules.
 
-## Snake Game
+3. **Creating a README**:
 
-```bash
-python src/larva01.py snake_game
-```
+   With `-r`, the script will generate a comprehensive README from `modules.json`. Add tests with `-rat` if needed, and use `-re` for full LLM responses in your documentation.
 
-Starts a basic snake game. Use arrow keys for navigation.
+## Notes
 
-## Tic-Tac-Toe
+- The script follows PEP 8 guidelines with a maximum line length of 79 characters.
+- Ensure all paths (e.g., `results_dir`, `codebase_txt`) are correctly set within the script environment before execution.
+- Handle exceptions gracefully, and review console output for any errors or warnings during operations.
 
-```bash
-python src/larva01.py tic_tac_toe
-```
-
-Play a console-based tic-tac-toe game with another player, taking turns to input moves via the command line.
-
-# Development Guidelines
-
-- **Code Style**: Follow PEP 8 guidelines.
-- **Line Length**: Limit lines to a maximum of 79 characters.
-- **String Quotes**: Use single quotes for strings unless necessary otherwise.
-- **Structure**: Maintain two blank lines between classes and functions.
-
-Ensure all contributions adhere to these standards. Refactor code where necessary for compliance with formatting rules.
-
-# Git Workflow
-
-- **Branch Naming**: Follow the pattern `feature/your-feature-name` or `bugfix/your-bug-fix`.
-- **Pull Requests**: Create a PR for each feature or bug fix, detailing changes and their impact.
-- **Code Reviews**: Ensure code reviews are conducted to maintain quality standards.
-
-# License
-
-This project is licensed under MIT. See the [LICENSE](LICENSE) file for more details.
-
----
-
-Feel free to contribute! Follow the guidelines outlined above to ensure consistency across the codebase. If you have any questions or need assistance, reach out through our communication channels.
+This guide aims to provide clarity on utilizing the script's features effectively. For additional modifications or extensions, consider reviewing the source code for more in-depth understanding and customization opportunities.
 
 ## Folder Structure:
 ```
@@ -108,5 +76,6 @@ codecollect/
 ├── requirements.txt
 ├── setup.cfg
 ├── src
-│   └── larva01.py
+│   ├── codtest.py
+│   └── main.py
 ```
