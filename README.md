@@ -30,25 +30,25 @@ This tool automates the generation of documentation for Python codebases, includ
 1. **Update Module List and Folder Structure**
 
    ```bash
-   python script.py -c
+   python codecollect.py -c
    ```
 
 2. **Generate Basic Docstrings**
 
    ```bash
-   python script.py -d
+   python codecollect.py -d
    ```
 
 3. **Generate Detailed Docstrings**
 
    ```bash
-   python script.py -dd
+   python codecollect.py -dd
    ```
 
 4. **Create README with Entire LLM Response**
 
    ```bash
-   python script.py -re
+   python codecollect.py -re
    ```
 
 ## Structure
