@@ -1,8 +1,11 @@
 # Automated Documentation Generator
 
+
 ## Overview
 
+
 This tool automates the generation of documentation for Python codebases, including updating module listings, creating folder structures, and generating detailed docstrings. It leverages Ollama to produce comprehensive READMEs with entire LLM responses or specific extracted content.
+
 
 ## Features
 
