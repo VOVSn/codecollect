@@ -189,7 +189,7 @@
 
 # Set to True to exclude folder structure and remove comment lines (#)
 # Set to False for the full output including structure and comments.
-CONCISE_OUTPUT = False # <-- Toggle concise mode
+CONCISE_OUTPUT = False # Toggle concise mode
 
 # Output directory name (must also be in IGNORED_FOLDERS)
 OUTPUT_DIR_NAME = "codebase"
@@ -321,14 +321,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 CMD ["python", "main.py"]
-IGNORE_WHEN_COPYING_START
-content_copy
-download
-Use code with caution.
-IGNORE_WHEN_COPYING_END
+```
 
 main.py:
-
+```python
 # Main application script
 import os
 from utils.helpers import greet
@@ -340,52 +336,30 @@ def run():
 
 if __name__ == "__main__":
     run() # Start the application
-IGNORE_WHEN_COPYING_START
-content_copy
-download
-Use code with caution.
-Python
-IGNORE_WHEN_COPYING_END
+```
 
 requirements.txt:
-
+```
 # Project dependencies
-# Add libraries here
-IGNORE_WHEN_COPYING_START
-content_copy
-download
-Use code with caution.
-Text
-IGNORE_WHEN_COPYING_END
+```
 
 utils/helpers.py:
-
+```python
 # Utility functions
 
 def greet(name):
     """Returns a greeting message."""
     # Simple greeting
     return f"Hello, {name}!"
-IGNORE_WHEN_COPYING_START
-content_copy
-download
-Use code with caution.
-Python
-IGNORE_WHEN_COPYING_END
-Coding Guidelines & Review Instructions:
+```
 ... (Custom prompt content) ...
 </code></pre>
 
          <h3 data-translate-key="output_h3_concise">Concise Output (<code>CONCISE_OUTPUT = True</code>)</h3>
         <pre><code class="language-text">
-IGNORE_WHEN_COPYING_START
-content_copy
-download
-Use code with caution.
-IGNORE_WHEN_COPYING_END
-
+---
 Dockerfile:
-
+```dockerfile
 FROM python:3.9-slim
 
 WORKDIR /app
@@ -396,15 +370,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 CMD ["python", "main.py"]
-IGNORE_WHEN_COPYING_START
-content_copy
-download
-Use code with caution.
-Dockerfile
-IGNORE_WHEN_COPYING_END
+```
 
 main.py:
-
+```python
 import os
 from utils.helpers import greet
 
@@ -415,34 +384,10 @@ def run():
 
 if __name__ == "__main__":
     run()
-IGNORE_WHEN_COPYING_START
-content_copy
-download
-Use code with caution.
-Python
-IGNORE_WHEN_COPYING_END
-
+```
 requirements.txt:
 
-IGNORE_WHEN_COPYING_START
-content_copy
-download
-Use code with caution.
-Text
-IGNORE_WHEN_COPYING_END
-
-utils/helpers.py:
-
-def greet(name):
-    """Returns a greeting message."""
-    return f"Hello, {name}!"
-IGNORE_WHEN_COPYING_START
-content_copy
-download
-Use code with caution.
-Python
-IGNORE_WHEN_COPYING_END
-Coding Guidelines & Review Instructions:
+```
 ... (Custom prompt content) ...
 </code></pre>
          <p data-translate-key="output_p1">
@@ -632,10 +577,5 @@ Coding Guidelines & Review Instructions:
 
     });
 </script>
-IGNORE_WHEN_COPYING_START
-content_copy
-download
-Use code with caution.
-IGNORE_WHEN_COPYING_END
 </body>
 </html>
