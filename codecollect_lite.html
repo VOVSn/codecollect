@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate-key="title">CodeCollect Lite Documentation</title>
+    <style>
+        /* CSS Variables for Theming */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #1a1a1a;
+            --link-color: #007bff;
+            --code-bg: #f8f8f8;
+            --code-border: #e0e0e0;
+            --code-text: #333333;
+            --button-bg: #e9e9e9;
+            --button-text: #333333;
+            --button-hover-bg: #dcdcdc;
+            --border-color: #dddddd;
+        }
+
+        body.dark-mode {
+            --bg-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --heading-color: #ffffff;
+            --link-color: #58a6ff;
+            --code-bg: #2d2d2d;
+            --code-border: #444444;
+            --code-text: #e0e0e0;
+            --button-bg: #3a3a3a;
+            --button-text: #e0e0e0;
+            --button-hover-bg: #4a4a4a;
+            --border-color: #444444;
+        }
+
+        /* General Styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-color); /* Ensure container bg matches body */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: border-color 0.3s ease;
+        }
+
+        /* Header and Controls */
+        .controls {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            transition: border-color 0.3s ease;
+        }
+
+        .control-button {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: 1px solid var(--border-color);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em; /* Make emoji/icons slightly larger */
+            margin-left: 10px;
+            transition: background-color 0.2s ease, border-color 0.3s ease;
+            line-height: 1; /* Prevent extra spacing around emojis */
+        }
+
+        .control-button:hover {
+            background-color: var(--button-hover-bg);
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            color: var(--heading-color);
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p, li {
+            margin-bottom: 0.8em;
+        }
+
+        ul, ol {
+            padding-left: 25px;
+        }
+
+        strong {
+             font-weight: 600;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            border: 1px solid var(--code-border);
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto; /* Enable horizontal scrolling for long lines */
+            white-space: pre; /* Preserve whitespace and line breaks */
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.9em;
+            color: var(--code-text);
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+             /* Inline code styling if needed - currently inherits from pre */
+        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: 2em;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <button id="theme-toggle" class="control-button" title="Toggle light/dark theme">☀️</button>
+            <button id="lang-toggle" class="control-button" title="Switch language">🇷🇺</button>
+        </div>
+
+        <h1 data-translate-key="main_heading">CodeCollect Lite: Project Code Aggregator</h1>
+
+        <section id="overview">
+            <h2 data-translate-key="overview_h2">Overview</h2>
+            <p data-translate-key="overview_p1">
+                <code>code_collect_lite.py</code> is a Python script designed to scan a project directory, identify relevant code and configuration files based on flexible include/exclude rules, and aggregate their contents into a single text file (<code>codebase.txt</code>).
+            </p>
+            <p data-translate-key="overview_p2">
+                Its primary purpose is to prepare a comprehensive snapshot of a codebase for tasks like code reviews, analysis, documentation generation, or providing context to Large Language Models (LLMs). It uses a manifest file (<code>modules.json</code>) to manage the list of files to be included, allowing for user review and modification before final collection.
+            </p>
+        </section>
+
+        <section id="features">
+            <h2 data-translate-key="features_h2">Key Features</h2>
+            <ul>
+                <li data-translate-key="features_li1"><strong>Selective File Discovery:</strong> Identifies files based on allowed extensions (e.g., <code>.py</code>, <code>.json</code>, <code>.sh</code>) and specific filenames (e.g., <code>Dockerfile</code>, <code>requirements.txt</code>).</li>
+                <li data-translate-key="features_li2"><strong>Configurable Filters:</strong> Easily exclude specific folders (e.g., <code>.git</code>, <code>.venv</code>, <code>__pycache__</code>, <code>migrations</code>), filenames (e.g., <code>__init__.py</code>, the script itself), and extensions (e.g., <code>.pyc</code>, <code>.log</code>).</li>
+                <li data-translate-key="features_li3"><strong>Manifest-Driven Collection (<code>modules.json</code>):</strong> On the first run, it scans the project and creates a <code>modules.json</code> file listing all found files. Subsequent runs use this list, allowing users to curate the files before collection.</li>
+                <li data-translate-key="features_li4"><strong>Folder Structure Generation:</strong> Creates a text-based representation of the project's folder structure (<code>folder_structure.txt</code>) respecting the ignore rules. This structure is optionally included at the beginning of the main output file.</li>
+                <li data-translate-key="features_li5"><strong>Concise Output Mode:</strong> An optional flag (<code>CONCISE_OUTPUT</code>) allows generating an output file that excludes the folder structure section and removes comment lines (lines starting with <code>#</code>) from the collected code.</li>
+                <li data-translate-key="features_li6"><strong>Combined Output File (<code>codebase.txt</code>):</strong> Aggregates the content of all selected files into a single, well-formatted text file, using Markdown code blocks with language hints.</li>
+                <li data-translate-key="features_li7"><strong>Custom Prompt Appending:</strong> Automatically appends a predefined set of instructions or guidelines (<code>CUSTOM_PROMPT</code>) to the end of the output file, useful for directing review or analysis tasks.</li>
+                 <li data-translate-key="features_li8"><strong>Self-Contained:</strong> Runs directly with Python's standard library (plus `os` and `json`). No external dependencies needed.</li>
+            </ul>
+        </section>
+
+        <section id="configuration">
+            <h2 data-translate-key="config_h2">Configuration</h2>
+            <p data-translate-key="config_p1">
+                Configuration is done by editing the constants directly within the <code>code_collect_lite.py</code> script:
+            </p>
+            <pre><code class="language-python">
+# --- Configuration ---
+
+# Set to True to exclude folder structure and remove comment lines (#)
+# Set to False for the full output including structure and comments.
+CONCISE_OUTPUT = False # <-- Toggle concise mode
+
+# Output directory name (must also be in IGNORED_FOLDERS)
+OUTPUT_DIR_NAME = "codebase"
+
+# Files generated within the output directory
+MODULES_FILENAME = "modules.json"
+STRUCTURE_FILENAME = "folder_structure.txt"
+CODEBASE_FILENAME = "codebase.txt"
+
+# List of file extensions to include (lowercase, starting with '.')
+ALLOWED_EXTENSIONS = [
+    '.py', '.json', '.sh',
+    # Add/remove extensions like '.html', '.css', '.yml', '.md'
+]
+
+# List of specific filenames to *always* include (case-insensitive)
+ALLOWED_FILENAMES = [
+    'Dockerfile', 'docker-compose.yml', 'requirements.txt',
+    # Add/remove specific files
+]
+
+# List of directory names to completely ignore
+IGNORED_FOLDERS = [
+    '.git', '.venv', 'env', 'venv', '__pycache__',
+    'node_modules', '.vscode', '.idea', 'migrations', 'seed_data',
+    OUTPUT_DIR_NAME, # Crucial: Ignore the output directory itself!
+    # Add more folders like 'dist', 'build', 'logs'
+]
+
+# List of specific filenames to *always* ignore (case-insensitive)
+IGNORED_FILENAMES = [
+    '.DS_Store', '__init__.py', '*.pyc',
+    os.path.basename(__file__), # Ignore the script itself
+    # Add more like 'config.local.json', '.env'
+]
+
+# List of file extensions to *always* ignore (lowercase, starting with '.')
+IGNORED_EXTENSIONS = [
+    '.pyc', '.log', '.bak', '.swp',
+    # Add more like '.tmp', '.orig'
+]
+
+# Custom instructions/prompt appended at the end
+CUSTOM_PROMPT = """
+---
+**Coding Guidelines & Review Instructions:**
+... (content as defined in the script) ...
+---
+"""
+            </code></pre>
+             <p data-translate-key="config_p2">
+                <strong>Important:</strong> Ensure the <code>OUTPUT_DIR_NAME</code> is listed in <code>IGNORED_FOLDERS</code> to prevent the script from collecting its own output in subsequent runs. Also, remember to add the <code>OUTPUT_DIR_NAME</code> (e.g., <code>codebase/</code>) to your project's <code>.gitignore</code> file.
+             </p>
+        </section>
+
+        <section id="usage">
+            <h2 data-translate-key="usage_h2">How to Use</h2>
+            <ol>
+                <li>
+                    <strong data-translate-key="usage_s1_strong">Save the Script:</strong> Place the <code>code_collect_lite.py</code> file in the root directory of the Python project you want to analyze.
+                </li>
+                <li>
+                    <strong data-translate-key="usage_s2_strong">Configure:</strong> Open <code>code_collect_lite.py</code> in a text editor and adjust the configuration lists (<code>ALLOWED_EXTENSIONS</code>, <code>IGNORED_FOLDERS</code>, etc.) and the <code>CONCISE_OUTPUT</code> flag to match your project structure and requirements.
+                </li>
+                <li>
+                    <strong data-translate-key="usage_s3_strong">Run (First Time):</strong>
+                    <ul style="margin-top: 0.5em;">
+                        <li data-translate-key="usage_s3_li1">Open your terminal or command prompt.</li>
+                        <li data-translate-key="usage_s3_li2">Navigate (<code>cd</code>) to your project's root directory (where you saved the script).</li>
+                        <li data-translate-key="usage_s3_li3">Execute the script: <code>python code_collect_lite.py</code></li>
+                        <li data-translate-key="usage_s3_li4">The script will create an output folder (default: <code>codebase/</code>).</li>
+                        <li data-translate-key="usage_s3_li5">Inside this folder, it will generate <code>folder_structure.txt</code> and <code>modules.json</code>.</li>
+                        <li data-translate-key="usage_s3_li6">It will print a message indicating these files were created and that <code>codebase.txt</code> was **not** generated yet.</li>
+                    </ul>
+                </li>
+                 <li>
+                    <strong data-translate-key="usage_s4_strong">Review <code>modules.json</code> (Optional but Recommended):</strong>
+                    <ul style="margin-top: 0.5em;">
+                        <li data-translate-key="usage_s4_li1">Open the generated <code>codebase/modules.json</code> file.</li>
+                        <li data-translate-key="usage_s4_li2">It contains a JSON list under the key <code>"files_to_include"</code> with all the file paths (relative to the project root) that matched your configuration.</li>
+                        <li data-translate-key="usage_s4_li3">You can manually remove file paths from this list if you decide certain files shouldn't be included in the final aggregated output.</li>
+                        <li data-translate-key="usage_s4_li4">Save the changes to <code>modules.json</code> if you made any.</li>
+                    </ul>
+                </li>
+                 <li>
+                    <strong data-translate-key="usage_s5_strong">Run (Second Time and Subsequent Runs):</strong>
+                    <ul style="margin-top: 0.5em;">
+                        <li data-translate-key="usage_s5_li1">Run the script again from your project's root directory: <code>python code_collect_lite.py</code></li>
+                        <li data-translate-key="usage_s5_li2">This time, the script will detect the existing <code>codebase/modules.json</code>.</li>
+                        <li data-translate-key="usage_s5_li3">It will re-generate <code>folder_structure.txt</code> (in case the structure changed).</li>
+                        <li data-translate-key="usage_s5_li4">It will read the curated list of files from <code>modules.json</code>.</li>
+                        <li data-translate-key="usage_s5_li5">It will read the content of each listed file.</li>
+                        <li data-translate-key="usage_s5_li6">It will create or overwrite <code>codebase/codebase.txt</code> with the collected content, formatted according to the <code>CONCISE_OUTPUT</code> setting, and append the <code>CUSTOM_PROMPT</code>.</li>
+                         <li data-translate-key="usage_s5_li7">A success message will be printed.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong data-translate-key="usage_s6_strong">Use the Output:</strong> The resulting <code>codebase/codebase.txt</code> file contains the aggregated project code, ready for review, analysis, or other tasks.
+                </li>
+            </ol>
+        </section>
+
+        <section id="output">
+            <h2 data-translate-key="output_h2">Output Example (<code>codebase.txt</code>)</h2>
+
+            <h3 data-translate-key="output_h3_standard">Standard Output (<code>CONCISE_OUTPUT = False</code>)</h3>
+            <pre><code class="language-text">
+## Folder Structure:
+
+
+my_project/
+├── Dockerfile
+├── main.py
+├── requirements.txt
+└── utils/
+└── helpers.py
+
+---
+
+Dockerfile:
+```dockerfile
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD ["python", "main.py"]
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+IGNORE_WHEN_COPYING_END
+
+main.py:
+
+# Main application script
+import os
+from utils.helpers import greet
+
+def run():
+    user_name = os.getenv("USER_NAME", "World")
+    message = greet(user_name)
+    print(message)
+
+if __name__ == "__main__":
+    run() # Start the application
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Python
+IGNORE_WHEN_COPYING_END
+
+requirements.txt:
+
+# Project dependencies
+# Add libraries here
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Text
+IGNORE_WHEN_COPYING_END
+
+utils/helpers.py:
+
+# Utility functions
+
+def greet(name):
+    """Returns a greeting message."""
+    # Simple greeting
+    return f"Hello, {name}!"
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Python
+IGNORE_WHEN_COPYING_END
+Coding Guidelines & Review Instructions:
+... (Custom prompt content) ...
+</code></pre>
+
+         <h3 data-translate-key="output_h3_concise">Concise Output (<code>CONCISE_OUTPUT = True</code>)</h3>
+        <pre><code class="language-text">
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+IGNORE_WHEN_COPYING_END
+
+Dockerfile:
+
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD ["python", "main.py"]
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Dockerfile
+IGNORE_WHEN_COPYING_END
+
+main.py:
+
+import os
+from utils.helpers import greet
+
+def run():
+    user_name = os.getenv("USER_NAME", "World")
+    message = greet(user_name)
+    print(message)
+
+if __name__ == "__main__":
+    run()
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Python
+IGNORE_WHEN_COPYING_END
+
+requirements.txt:
+
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Text
+IGNORE_WHEN_COPYING_END
+
+utils/helpers.py:
+
+def greet(name):
+    """Returns a greeting message."""
+    return f"Hello, {name}!"
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+Python
+IGNORE_WHEN_COPYING_END
+Coding Guidelines & Review Instructions:
+... (Custom prompt content) ...
+</code></pre>
+         <p data-translate-key="output_p1">
+             Note how in Concise mode, the "Folder Structure" section is omitted, and lines starting with <code>#</code> (after stripping whitespace) are removed from the code blocks. The custom prompt is always included.
+         </p>
+    </section>
+
+</div><!-- /container -->
+
+<script>
+    // Embedded JavaScript for theme and language switching
+
+    const translations = {
+        en: {
+            title: "CodeCollect Lite Documentation",
+            main_heading: "CodeCollect Lite: Project Code Aggregator",
+            overview_h2: "Overview",
+            overview_p1: "<code>code_collect_lite.py</code> is a Python script designed to scan a project directory, identify relevant code and configuration files based on flexible include/exclude rules, and aggregate their contents into a single text file (<code>codebase.txt</code>).",
+            overview_p2: "Its primary purpose is to prepare a comprehensive snapshot of a codebase for tasks like code reviews, analysis, documentation generation, or providing context to Large Language Models (LLMs). It uses a manifest file (<code>modules.json</code>) to manage the list of files to be included, allowing for user review and modification before final collection.",
+            features_h2: "Key Features",
+            features_li1: "<strong>Selective File Discovery:</strong> Identifies files based on allowed extensions (e.g., <code>.py</code>, <code>.json</code>, <code>.sh</code>) and specific filenames (e.g., <code>Dockerfile</code>, <code>requirements.txt</code>).",
+            features_li2: "<strong>Configurable Filters:</strong> Easily exclude specific folders (e.g., <code>.git</code>, <code>.venv</code>, <code>__pycache__</code>, <code>migrations</code>), filenames (e.g., <code>__init__.py</code>, the script itself), and extensions (e.g., <code>.pyc</code>, <code>.log</code>).",
+            features_li3: "<strong>Manifest-Driven Collection (<code>modules.json</code>):</strong> On the first run, it scans the project and creates a <code>modules.json</code> file listing all found files. Subsequent runs use this list, allowing users to curate the files before collection.",
+            features_li4: "<strong>Folder Structure Generation:</strong> Creates a text-based representation of the project's folder structure (<code>folder_structure.txt</code>) respecting the ignore rules. This structure is optionally included at the beginning of the main output file.",
+            features_li5: "<strong>Concise Output Mode:</strong> An optional flag (<code>CONCISE_OUTPUT</code>) allows generating an output file that excludes the folder structure section and removes comment lines (lines starting with <code>#</code>) from the collected code.",
+            features_li6: "<strong>Combined Output File (<code>codebase.txt</code>):</strong> Aggregates the content of all selected files into a single, well-formatted text file, using Markdown code blocks with language hints.",
+            features_li7: "<strong>Custom Prompt Appending:</strong> Automatically appends a predefined set of instructions or guidelines (<code>CUSTOM_PROMPT</code>) to the end of the output file, useful for directing review or analysis tasks.",
+            features_li8: "<strong>Self-Contained:</strong> Runs directly with Python's standard library (plus `os` and `json`). No external dependencies needed.",
+            config_h2: "Configuration",
+            config_p1: "Configuration is done by editing the constants directly within the <code>code_collect_lite.py</code> script:",
+            config_p2: "<strong>Important:</strong> Ensure the <code>OUTPUT_DIR_NAME</code> is listed in <code>IGNORED_FOLDERS</code> to prevent the script from collecting its own output in subsequent runs. Also, remember to add the <code>OUTPUT_DIR_NAME</code> (e.g., <code>codebase/</code>) to your project's <code>.gitignore</code> file.",
+            usage_h2: "How to Use",
+            usage_s1_strong: "Save the Script:",
+            usage_s1_li1: "Place the <code>code_collect_lite.py</code> file in the root directory of the Python project you want to analyze.",
+            usage_s2_strong: "Configure:",
+            usage_s2_li1: "Open <code>code_collect_lite.py</code> in a text editor and adjust the configuration lists (<code>ALLOWED_EXTENSIONS</code>, <code>IGNORED_FOLDERS</code>, etc.) and the <code>CONCISE_OUTPUT</code> flag to match your project structure and requirements.",
+            usage_s3_strong: "Run (First Time):",
+            usage_s3_li1: "Open your terminal or command prompt.",
+            usage_s3_li2: "Navigate (<code>cd</code>) to your project's root directory (where you saved the script).",
+            usage_s3_li3: "Execute the script: <code>python code_collect_lite.py</code>",
+            usage_s3_li4: "The script will create an output folder (default: <code>codebase/</code>).",
+            usage_s3_li5: "Inside this folder, it will generate <code>folder_structure.txt</code> and <code>modules.json</code>.",
+            usage_s3_li6: "It will print a message indicating these files were created and that <code>codebase.txt</code> was **not** generated yet.",
+            usage_s4_strong: "Review <code>modules.json</code> (Optional but Recommended):",
+            usage_s4_li1: "Open the generated <code>codebase/modules.json</code> file.",
+            usage_s4_li2: "It contains a JSON list under the key <code>\"files_to_include\"</code> with all the file paths (relative to the project root) that matched your configuration.",
+            usage_s4_li3: "You can manually remove file paths from this list if you decide certain files shouldn't be included in the final aggregated output.",
+            usage_s4_li4: "Save the changes to <code>modules.json</code> if you made any.",
+            usage_s5_strong: "Run (Second Time and Subsequent Runs):",
+            usage_s5_li1: "Run the script again from your project's root directory: <code>python code_collect_lite.py</code>",
+            usage_s5_li2: "This time, the script will detect the existing <code>codebase/modules.json</code>.",
+            usage_s5_li3: "It will re-generate <code>folder_structure.txt</code> (in case the structure changed).",
+            usage_s5_li4: "It will read the curated list of files from <code>modules.json</code>.",
+            usage_s5_li5: "It will read the content of each listed file.",
+            usage_s5_li6: "It will create or overwrite <code>codebase/codebase.txt</code> with the collected content, formatted according to the <code>CONCISE_OUTPUT</code> setting, and append the <code>CUSTOM_PROMPT</code>.",
+            usage_s5_li7: "A success message will be printed.",
+            usage_s6_strong: "Use the Output:",
+            usage_s6_li1: "The resulting <code>codebase/codebase.txt</code> file contains the aggregated project code, ready for review, analysis, or other tasks.",
+            output_h2: "Output Example (<code>codebase.txt</code>)",
+            output_h3_standard: "Standard Output (<code>CONCISE_OUTPUT = False</code>)",
+            output_h3_concise: "Concise Output (<code>CONCISE_OUTPUT = True</code>)",
+            output_p1: "Note how in Concise mode, the \"Folder Structure\" section is omitted, and lines starting with <code>#</code> (after stripping whitespace) are removed from the code blocks. The custom prompt is always included.",
+            theme_button_title: "Toggle light/dark theme",
+            lang_button_title_en: "Switch language to Russian",
+            lang_button_title_ru: "Switch language to English"
+        },
+        ru: {
+            title: "Документация CodeCollect Lite",
+            main_heading: "CodeCollect Lite: Агрегатор Кода Проекта",
+            overview_h2: "Обзор",
+            overview_p1: "<code>code_collect_lite.py</code> — это скрипт Python, предназначенный для сканирования каталога проекта, определения релевантных файлов кода и конфигурации на основе гибких правил включения/исключения и объединения их содержимого в один текстовый файл (<code>codebase.txt</code>).",
+            overview_p2: "Его основная цель — подготовить всеобъемлющий снимок кодовой базы для таких задач, как ревью кода, анализ, генерация документации или предоставление контекста большим языковым моделям (LLM). Он использует файл манифеста (<code>modules.json</code>) для управления списком включаемых файлов, позволяя пользователю просмотреть и изменить его перед окончательным сбором.",
+            features_h2: "Ключевые Особенности",
+            features_li1: "<strong>Выборочное Обнаружение Файлов:</strong> Идентифицирует файлы на основе разрешенных расширений (например, <code>.py</code>, <code>.json</code>, <code>.sh</code>) и конкретных имен файлов (например, <code>Dockerfile</code>, <code>requirements.txt</code>).",
+            features_li2: "<strong>Настраиваемые Фильтры:</strong> Легко исключать определенные папки (например, <code>.git</code>, <code>.venv</code>, <code>__pycache__</code>, <code>migrations</code>), имена файлов (например, <code>__init__.py</code>, сам скрипт) и расширения (например, <code>.pyc</code>, <code>.log</code>).",
+            features_li3: "<strong>Сбор на Основе Манифеста (<code>modules.json</code>):</strong> При первом запуске сканирует проект и создает файл <code>modules.json</code> со списком всех найденных файлов. Последующие запуски используют этот список, позволяя пользователям курировать файлы перед сбором.",
+            features_li4: "<strong>Генерация Структуры Папок:</strong> Создает текстовое представление структуры папок проекта (<code>folder_structure.txt</code>) с учетом правил игнорирования. Эта структура опционально включается в начало основного выходного файла.",
+            features_li5: "<strong>Режим Краткого Вывода:</strong> Опциональный флаг (<code>CONCISE_OUTPUT</code>) позволяет генерировать выходной файл, который исключает раздел структуры папок и удаляет строки комментариев (строки, начинающиеся с <code>#</code>) из собранного кода.",
+            features_li6: "<strong>Объединенный Выходной Файл (<code>codebase.txt</code>):</strong> Объединяет содержимое всех выбранных файлов в один, хорошо отформатированный текстовый файл, используя блоки кода Markdown с указанием языка.",
+            features_li7: "<strong>Добавление Пользовательского Промпта:</strong> Автоматически добавляет предопределенный набор инструкций или рекомендаций (<code>CUSTOM_PROMPT</code>) в конец выходного файла, что полезно для направления задач ревью или анализа.",
+            features_li8: "<strong>Автономный:</strong> Работает непосредственно со стандартной библиотекой Python (плюс `os` и `json`). Внешние зависимости не требуются.",
+            config_h2: "Конфигурация",
+            config_p1: "Конфигурация выполняется путем редактирования констант непосредственно в скрипте <code>code_collect_lite.py</code>:",
+            config_p2: "<strong>Важно:</strong> Убедитесь, что <code>OUTPUT_DIR_NAME</code> указан в <code>IGNORED_FOLDERS</code>, чтобы предотвратить сбор скриптом собственного вывода при последующих запусках. Также не забудьте добавить <code>OUTPUT_DIR_NAME</code> (например, <code>codebase/</code>) в файл <code>.gitignore</code> вашего проекта.",
+            usage_h2: "Как Использовать",
+            usage_s1_strong: "Сохраните Скрипт:",
+            usage_s1_li1: "Поместите файл <code>code_collect_lite.py</code> в корневой каталог проекта Python, который вы хотите проанализировать.",
+            usage_s2_strong: "Настройте:",
+            usage_s2_li1: "Откройте <code>code_collect_lite.py</code> в текстовом редакторе и измените списки конфигурации (<code>ALLOWED_EXTENSIONS</code>, <code>IGNORED_FOLDERS</code> и т. д.) и флаг <code>CONCISE_OUTPUT</code> в соответствии со структурой вашего проекта и требованиями.",
+            usage_s3_strong: "Запуск (Первый Раз):",
+            usage_s3_li1: "Откройте ваш терминал или командную строку.",
+            usage_s3_li2: "Перейдите (<code>cd</code>) в корневой каталог вашего проекта (где вы сохранили скрипт).",
+            usage_s3_li3: "Выполните скрипт: <code>python code_collect_lite.py</code>",
+            usage_s3_li4: "Скрипт создаст папку для вывода (по умолчанию: <code>codebase/</code>).",
+            usage_s3_li5: "Внутри этой папки он сгенерирует <code>folder_structure.txt</code> и <code>modules.json</code>.",
+            usage_s3_li6: "Он выведет сообщение о том, что эти файлы были созданы и что <code>codebase.txt</code> **еще не** был сгенерирован.",
+            usage_s4_strong: "Просмотрите <code>modules.json</code> (Опционально, но Рекомендуется):",
+            usage_s4_li1: "Откройте сгенерированный файл <code>codebase/modules.json</code>.",
+            usage_s4_li2: "Он содержит JSON-список под ключом <code>\"files_to_include\"</code> со всеми путями к файлам (относительно корня проекта), которые соответствуют вашей конфигурации.",
+            usage_s4_li3: "Вы можете вручную удалить пути к файлам из этого списка, если решите, что определенные файлы не должны включаться в окончательный объединенный вывод.",
+            usage_s4_li4: "Сохраните изменения в <code>modules.json</code>, если вы их внесли.",
+            usage_s5_strong: "Запуск (Второй Раз и Последующие Запуски):",
+            usage_s5_li1: "Запустите скрипт снова из корневого каталога вашего проекта: <code>python code_collect_lite.py</code>",
+            usage_s5_li2: "На этот раз скрипт обнаружит существующий <code>codebase/modules.json</code>.",
+            usage_s5_li3: "Он перегенерирует <code>folder_structure.txt</code> (на случай, если структура изменилась).",
+            usage_s5_li4: "Он прочитает курируемый список файлов из <code>modules.json</code>.",
+            usage_s5_li5: "Он прочитает содержимое каждого указанного файла.",
+            usage_s5_li6: "Он создаст или перезапишет <code>codebase/codebase.txt</code> с собранным содержимым, отформатированным в соответствии с настройкой <code>CONCISE_OUTPUT</code>, и добавит <code>CUSTOM_PROMPT</code>.",
+            usage_s5_li7: "Будет выведено сообщение об успехе.",
+            usage_s6_strong: "Используйте Вывод:",
+            usage_s6_li1: "Полученный файл <code>codebase/codebase.txt</code> содержит агрегированный код проекта, готовый к ревью, анализу или другим задачам.",
+            output_h2: "Пример Вывода (<code>codebase.txt</code>)",
+            output_h3_standard: "Стандартный Вывод (<code>CONCISE_OUTPUT = False</code>)",
+            output_h3_concise: "Краткий Вывод (<code>CONCISE_OUTPUT = True</code>)",
+            output_p1: "Обратите внимание, как в кратком режиме раздел \"Структура Папок\" опущен, а строки, начинающиеся с <code>#</code> (после удаления пробелов), удалены из блоков кода. Пользовательский промпт всегда включается.",
+            theme_button_title: "Переключить светлую/темную тему",
+            lang_button_title_en: "Переключить язык на Русский",
+            lang_button_title_ru: "Переключить язык на Английский"
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const langToggleButton = document.getElementById('lang-toggle');
+        const body = document.body;
+        const htmlEl = document.documentElement;
+
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        let currentLang = localStorage.getItem('language') || 'en';
+
+        // --- Theme Initialization ---
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                body.classList.add('dark-mode');
+                themeToggleButton.textContent = '🌙'; // Moon for dark mode
+                themeToggleButton.title = translations[currentLang].theme_button_title;
+            } else {
+                body.classList.remove('dark-mode');
+                themeToggleButton.textContent = '☀️'; // Sun for light mode
+                 themeToggleButton.title = translations[currentLang].theme_button_title;
+            }
+            localStorage.setItem('theme', theme);
+            currentTheme = theme;
+        }
+
+        applyTheme(currentTheme); // Apply saved or default theme on load
+
+        themeToggleButton.addEventListener('click', () => {
+            applyTheme(currentTheme === 'light' ? 'dark' : 'light');
+        });
+
+        // --- Language Initialization & Switching ---
+        function applyLanguage(lang) {
+            const elements = document.querySelectorAll('[data-translate-key]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-translate-key');
+                if (translations[lang] && translations[lang][key]) {
+                    // Use innerHTML to allow HTML tags within translations (like <strong>, <code>)
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Update language attribute of <html> tag
+            htmlEl.setAttribute('lang', lang);
+
+            // Update language toggle button text and title
+            if (lang === 'en') {
+                langToggleButton.textContent = '🇷🇺'; // Show Russian flag
+                langToggleButton.title = translations.en.lang_button_title_en; // Title in English
+            } else {
+                langToggleButton.textContent = '🇬🇧'; // Show UK flag (common for English)
+                langToggleButton.title = translations.ru.lang_button_title_ru; // Title in Russian
+            }
+
+            // Update theme button title in the current language
+            themeToggleButton.title = translations[lang].theme_button_title;
+
+            localStorage.setItem('language', lang);
+            currentLang = lang;
+        }
+
+         applyLanguage(currentLang); // Apply saved or default language on load
+
+         langToggleButton.addEventListener('click', () => {
+             applyLanguage(currentLang === 'en' ? 'ru' : 'en');
+        });
+
+    });
+</script>
+IGNORE_WHEN_COPYING_START
+content_copy
+download
+Use code with caution.
+IGNORE_WHEN_COPYING_END
+</body>
+</html>
