@@ -1,5 +1,6 @@
 # Automated Documentation Generator
 
+(Added codecollect_lite for vibecoding)
 
 ## Overview
 
